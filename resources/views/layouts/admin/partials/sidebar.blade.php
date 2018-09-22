@@ -47,6 +47,12 @@
                     </ul>
                 </li>
                 <li class="nav-item">
+                    <router-link to="/developer" class="nav-link">
+                        <i class="nav-icon fas fa-cog text-success"></i>
+                        <p>Developer</p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
                     <router-link to="/profile" class="nav-link">
                         <i class="nav-icon fas fa-user text-success"></i>
                         <p>Profile</p>

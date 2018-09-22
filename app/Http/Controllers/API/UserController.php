@@ -6,9 +6,21 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
 
     /**
      * Display a listing of the resource.
@@ -87,6 +99,27 @@ class UserController extends Controller
         $user->image = $request->image;
         $user->password = Hash::make($request->password);
         $user->save();
+    }
+
+
+    public function profileUpdate(Request $request){
+
+        $user = auth('api')->user();
+        $this->validate($request,[
+            'name' => 'required|string|max:191',
+            'email' => 'required|string|email|max:191|unique:users,email,'.$user->id,
+            'password' => 'sometimes|required|min:6'
+        ]);
+        $currentImage = $user->image;
+        if($request->image != $currentImage){
+            $name = time().'.' . explode('/', explode(':', substr($request->image, 0, strpos($request->image, ';')))[1])[1];
+            
+            \Image::make($request->image)->save(public_path('img/profile/').$name);
+            $request->merge(['image' => $name]);
+        }
+        $user->update($request->all());
+        return ['message' => "Success"];
+
     }
 
     /**

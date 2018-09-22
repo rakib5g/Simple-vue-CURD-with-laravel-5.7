@@ -29,14 +29,15 @@ Vue.use(VueRouter);
 let routes = [
     { path: '/dashboard', component: require('./components/Dashboard.vue') },
     { path: '/users', component: require('./components/Users.vue') },
-    { path: '/profile', component: require('./components/Profile.vue') }
+    { path: '/profile', component: require('./components/Profile.vue') },
+    { path: '/developer', component: require('./components/Developer.vue') }
 ];
 
 // 3. Create the router instance and pass the `routes` option
 // You can pass in additional options here, but let's
 // keep it simple for now.
 const router = new VueRouter({
-    // mode: 'history',
+    mode: 'history',
     routes // short for `routes: routes`
 });
 
@@ -77,6 +78,7 @@ window.toast = toast;
 window.Fire = new Vue();
 
 
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -88,6 +90,28 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
 // 4. Create and mount the root instance.
 // Make sure to inject the router with the router option to make the
 // whole app router-aware.
+
+
+
+
+//Passport configer...........
+Vue.component(
+    'passport-clients',
+    require('./components/passport/Clients.vue')
+);
+
+Vue.component(
+    'passport-authorized-clients',
+    require('./components/passport/AuthorizedClients.vue')
+);
+
+Vue.component(
+    'passport-personal-access-tokens',
+    require('./components/passport/PersonalAccessTokens.vue')
+);
+
+
+
 const app = new Vue({
     router
 }).$mount('#app');
